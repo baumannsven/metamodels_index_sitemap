@@ -4,9 +4,9 @@
 ##About##
 
 Ein Erweiterung für die MetaModels mit folgenden Funktionen für die Detailseiten:
-	•	XML Sitemap indexieren
-	•	Suchindex registrieren
-	•	Suchmodul mitauflisten
+•	XML Sitemap indexieren
+•	Suchindex registrieren
+•	Suchmodul mitauflisten
 
 Näheres können Sie in den Rendereinstellung bei den Experteneinstellungen erfahren.
 
@@ -16,4 +16,4 @@ Contao 3.2.5
 
 ##Available languages##
 
-	•	German
+•	German
