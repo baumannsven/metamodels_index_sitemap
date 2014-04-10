@@ -35,7 +35,7 @@ class SiteMap
 	 *
 	 * @return array|bool
 	 */
-	public static function getSubPage($item)
+	public static function getSubPage($item, $count=0)
 	{
 		$arrSettings = \MetamodelRendersettingsModel::getRenderSettings('sitemap', 1);
 

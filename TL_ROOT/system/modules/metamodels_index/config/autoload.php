@@ -1,18 +1,13 @@
 <?php
 
 /**
- * This is a subpackage for Contao MetaModels.
- * This package include the detail sides to searchindex
- * and to sitemap.
+ * Contao Open Source CMS
  *
- * PHP version 5
+ * Copyright (c) 2005-2014 Leo Feyer
  *
- * @package    MetaModelsIndexSitmap
- * @subpackage Core, MetaModels
- * @author     Sven Baumann <baumann.sv@googlemail.com>
- * @copyright  Sven Baumann.
- * @license    LGPL.
- * @filesource https://github.com/baumanndotsv/metamodels_index_sitemap
+ * @package Metamodels_index
+ * @link    https://contao.org
+ * @license http://www.gnu.org/licenses/lgpl-3.0.html LGPL
  */
 
 
@@ -31,6 +26,7 @@ ClassLoader::addNamespaces(array
  */
 ClassLoader::addClasses(array
 (
+	// MetaModels
 	'MetaModels\Index\Index'                                    => 'system/modules/metamodels_index/MetaModels/Index/Index.php',
 	'MetamodelRendersettingsModel\MetamodelRendersettingsModel' => 'system/modules/metamodels_index/MetaModels/Index/Model/MetamodelRendersettingsModel.php',
 ));

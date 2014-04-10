@@ -1,6 +1,6 @@
 <ul class="<?php echo $this->level; ?>">
 	<?php foreach ($this->items as $item): ?>
-		<?php if ($metaItems = \MetaModels\SiteMap\SiteMap::getSubPage($item)): ?>
+		<?php if ($metaItems = \MetaModels\SiteMap\SiteMap::getSubPage($item, $count)): ?>
 			<ul class="<?php echo $this->level++; ?>">
 			<?php foreach ($metaItems as $metaItem): ?>
 				<li<?php if ($item['class']): ?> class="<?php echo $item['class']; ?>"<?php endif; ?>><a

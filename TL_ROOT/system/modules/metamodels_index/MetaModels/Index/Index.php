@@ -97,8 +97,7 @@ class Index
 
 		if ($GLOBALS['TL_CONFIG']['urlSuffix']) $strLink = str_replace($GLOBALS['TL_CONFIG']['urlSuffix'], '', $strLink);
 
-		$strLink = explode(TL_PATH . '/', $strLink);
-		$strLink = $strLink[1];
+		$strLink = str_replace(\Environment::get('base'), '', $strLink);
 
 		$strLang = '';
 
@@ -107,16 +106,9 @@ class Index
 			$strLink = explode('/', $strLink);
 
 			$strLang = $strLink[0];
+			unset($strLink[0]);
 
-			if ($GLOBALS['TL_CONFIG']['folderUrl'])
-			{
-				unset($strLink[0]);
-				$strLink = implode('/', $strLink);
-
-			} else
-			{
-				$strLink = $strLink[1];
-			}
+			$strLink = implode('/', $strLink);
 		}
 
 		$arrLink = array('alias' => $strLink, 'language' => $strLang);
@@ -138,7 +130,7 @@ class Index
 	{
 		$objTable = Factory::byId($arrData['pid']);
 
-		$result = Database::getInstance()->prepare('SELECT * FROM ' . $objTable->getTableName() . ' WHERE public=? ORDER BY alias')->execute(1);
+		$result = Database::getInstance()->prepare('SELECT * FROM ' . $objTable->getTableName() . ' WHERE public=?')->execute(1);
 
 		$arrReturn = array();
 
