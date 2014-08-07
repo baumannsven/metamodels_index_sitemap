@@ -42,14 +42,15 @@ class Index
 	{
 		$arrSettings = \MetamodelRendersettingsModel::getRenderSettings('search_index', 1);
 
-		if ($arrSettings == false) return $arrData;
+		if ($arrSettings == false) {
+			return $arrData;
+		}
 
 		$arrOldSettings = $arrSettings;
 
 		$arrSettings = array();
 
-		foreach ($arrOldSettings as $key => $value)
-		{
+		foreach ($arrOldSettings as $key => $value) {
 			$arrSettings[$arrOldSettings[$key]['jumpTo']['value']] = $value;
 		}
 
@@ -57,27 +58,32 @@ class Index
 
 		$newArrData = array();
 
-		foreach ($arrData as $value)
-		{
+		foreach ($arrData as $value) {
 			$arrLink = $this->getAlias($value);
 
 			$objPageCollection = \PageModel::findPublishedByIdOrAlias($arrLink['alias']);
 
-			foreach ($objPageCollection as $objValue)
-			{
-				if ($objValue->alias == $arrLink['alias'] && isset($arrSettings[$objValue->id]))
-				{
-					foreach ($this->getSearchPage($arrSettings[$objValue->id], $arrLink['alias'], $arrLink['language']) as $sKey => $sValue)
-					{
-						$newArrData[] = $sValue;
+			if ($objPageCollection) {
+				foreach ($objPageCollection as $objValue) {
+					if ($objValue->alias == $arrLink['alias'] && isset($arrSettings[$objValue->id])) {
+						foreach (
+							$this->getSearchPage(
+								 $arrSettings[$objValue->id],
+									 $arrLink['alias'],
+									 $arrLink['language']
+							) as $sKey => $sValue
+						) {
+							$newArrData[] = $sValue;
+						}
 					}
-				} else
-				{
-					$newArrData[] = $value;
+					else {
+						$newArrData[] = $value;
+					}
 				}
+
+				unset($objValue, $objPageCollection);
 			}
 
-			unset($objValue, $objPageCollection);
 		}
 
 		return $newArrData;
@@ -93,16 +99,23 @@ class Index
 	protected function getAlias($strLink)
 	{
 
-		if ($GLOBALS['TL_CONFIG']['rewriteURL'] == false) $strLink = str_replace('index.php/', '', $strLink);
+		if ($GLOBALS['TL_CONFIG']['rewriteURL'] == false) {
+			$strLink = str_replace('index.php/', '', $strLink);
+		}
 
-		if ($GLOBALS['TL_CONFIG']['urlSuffix']) $strLink = str_replace($GLOBALS['TL_CONFIG']['urlSuffix'], '', $strLink);
+		if ($GLOBALS['TL_CONFIG']['urlSuffix']) {
+			$strLink = str_replace(
+				$GLOBALS['TL_CONFIG']['urlSuffix'],
+				'',
+				$strLink
+			);
+		}
 
 		$strLink = str_replace(\Environment::get('base'), '', $strLink);
 
 		$strLang = '';
 
-		if ($GLOBALS['TL_CONFIG']['addLanguageToUrl'])
-		{
+		if ($GLOBALS['TL_CONFIG']['addLanguageToUrl']) {
 			$strLink = explode('/', $strLink);
 
 			$strLang = $strLink[0];
@@ -130,21 +143,27 @@ class Index
 	{
 		$objTable = Factory::byId($arrData['pid']);
 
-		$result = Database::getInstance()->prepare('SELECT * FROM ' . $objTable->getTableName() . ' WHERE public=?')->execute(1);
+		$result = Database::getInstance()
+						  ->prepare('SELECT * FROM ' . $objTable->getTableName() . ' WHERE published=?')
+						  ->execute(1);
 
 		$arrReturn = array();
 
-		if ($result->count())
-		{
+		if ($result->count()) {
 			$arrPages = $result->fetchAllAssoc();
 
-			if ($strForceArr == true) return $arrPages;
+			if ($strForceArr == true) {
+				return $arrPages;
+			}
 
-			foreach ($arrPages as $key => $value)
-			{
+			foreach ($arrPages as $key => $value) {
 				$arrRow['alias'] = $strAlias . '/' . $value['alias'];
 
-				$arrReturn[] = Environment::get('base') . Controller::generateFrontendUrl($arrRow, $strParams = null, $strLang);
+				$arrReturn[] = Environment::get('base') . Controller::generateFrontendUrl(
+																	$arrRow,
+																		$strParams = null,
+																		$strLang
+					);
 			}
 		}
 
