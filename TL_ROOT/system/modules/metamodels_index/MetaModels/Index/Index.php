@@ -98,17 +98,8 @@ class Index
 	 */
 	protected function getAlias($strLink)
 	{
-
 		if ($GLOBALS['TL_CONFIG']['rewriteURL'] == false) {
 			$strLink = str_replace('index.php/', '', $strLink);
-		}
-
-		if ($GLOBALS['TL_CONFIG']['urlSuffix']) {
-			$strLink = str_replace(
-				$GLOBALS['TL_CONFIG']['urlSuffix'],
-				'',
-				$strLink
-			);
 		}
 
 		$strLink = str_replace(\Environment::get('base'), '', $strLink);
@@ -123,9 +114,17 @@ class Index
 
 			$strLink = implode('/', $strLink);
 		}
+		
+		if ($GLOBALS['TL_CONFIG']['urlSuffix']) {
+			$strLink = str_replace(
+				$GLOBALS['TL_CONFIG']['urlSuffix'],
+				'',
+				$strLink
+			);
+		}
 
 		$arrLink = array('alias' => $strLink, 'language' => $strLang);
-
+		
 		return $arrLink;
 	}
 
